@@ -92,17 +92,3 @@ const choices = {
 };
 
 exports.choices = choices;
-
-exports.topOption = {
-  type: "list",
-  message: "选择需要进行的操作",
-  name: "option",
-  choices: getNames(choices),
-};
-
-exports.downOption = {
-  type: "list",
-  message: "选择接口下载类型",
-  name: "down",
-  choices: getNames(choices.down.children),
-};

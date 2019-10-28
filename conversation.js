@@ -1,10 +1,6 @@
 require("module-alias/register");
 const inquirer = require("inquirer");
-const {
-  topOption,
-  downOption,
-  choices,
-} = require("@/constants/conversationOption");
+const { topOption, choices } = require("@/constants/conversationOption");
 const utils = require("@/utils");
 
 const { getKeyNameArr, getNames } = utils;
@@ -23,9 +19,16 @@ const { getKeyNameArr, getNames } = utils;
  * 下载对话函数
  */
 function downPrompt() {
-  inquirer.prompt(downOption).then(value => {
-    console.log(value);
-  });
+  inquirer
+    .prompt({
+      type: "list",
+      message: "选择接口下载类型",
+      name: "down",
+      choices: getNames(choices.down.children),
+    })
+    .then(value => {
+      console.log(value);
+    });
 }
 
 function searchPrompt() {
@@ -54,16 +57,23 @@ function managePrompt() {
     });
 }
 
-inquirer.prompt(topOption).then(value => {
-  switch (value[topOption.name]) {
-    case choices.down.name:
-      downPrompt();
-      break;
-    case choices.search.name:
-      searchPrompt();
-      break;
-    case choices.manage.name:
-      managePrompt();
-      break;
-  }
-});
+inquirer
+  .prompt({
+    type: "list",
+    message: "选择需要进行的操作",
+    name: "option",
+    choices: getNames(choices),
+  })
+  .then(value => {
+    switch (value.option) {
+      case choices.down.name:
+        downPrompt();
+        break;
+      case choices.search.name:
+        searchPrompt();
+        break;
+      case choices.manage.name:
+        managePrompt();
+        break;
+    }
+  });
